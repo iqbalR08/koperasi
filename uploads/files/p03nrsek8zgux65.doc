@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Pengguna</title>
+	<style>
+		@page {
+			margin: 0px;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		body,
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			margin: 0px;
+			padding: 0px;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		small {
+			font-size: 12px;
+			color: #888;
+		}
+
+		.ajax-page-load-indicator {
+			display: none;
+			visibility: hidden;
+		}
+
+		#report-header {
+			position: relative;
+			border-top: 2px solid #0066cc;
+			border-bottom: 5px solid #0066cc;
+			background: #fafafa;
+			padding: 10px;
+		}
+		
+		#report-header table{
+			margin:0;
+		}
+		
+		#report-header .sub-title {
+			font-size: small;
+			color: #888;
+		}
+
+		#report-header img {
+			height: 50px;
+			width: 50px;
+		}
+
+		#report-title {
+			background: #fafafa;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			padding: 10px 20px;
+			font-size: 24px;
+		}
+		#report-body{
+			padding: 20px;
+		}
+
+		#report-footer {
+			padding: 10px;
+			background: #fafafa;
+			border-top: 2px solid #0066cc;
+			position: absolute;
+			bottom: 0;
+			left:0;
+			width: 98%;
+			overflow: hidden;
+			margin: 0 auto;
+		}
+		
+		#report-footer table{
+			margin: 0;
+			overflow: hidden;
+		}
+
+		table,
+		.table {
+			width: 100%;
+			max-width: 100%;
+			margin-bottom: 1rem;
+			border-collapse: collapse;
+		}
+
+		.table th,
+		.table td {
+			padding: 0.75rem;
+			vertical-align: top;
+			border-top: 1px solid #eceeef;
+		}
+
+		.table thead th {
+			vertical-align: bottom;
+			border-bottom: 2px solid #eceeef;
+		}
+
+		.table tbody+tbody {
+			border-top: 2px solid #eceeef;
+		}
+
+		.table .table {
+			background-color: #fff;
+		}
+
+		.table-sm th,
+		.table-sm td {
+			padding: 0.3rem;
+		}
+
+		.table-bordered {
+			border: 1px solid #eceeef;
+		}
+
+		.table-bordered th,
+		.table-bordered td {
+			border: 1px solid #eceeef;
+		}
+
+		.table-bordered thead th,
+		.table-bordered thead td {
+			border-bottom-width: 2px;
+		}
+
+		.table-striped tbody tr:nth-of-type(odd) {
+			background-color: rgba(0, 0, 0, 0.05);
+		}
+
+		.table-hover tbody tr:hover {
+			background-color: rgba(0, 0, 0, 0.075);
+		}
+
+		.table-active,
+		.table-active>th,
+		.table-active>td {
+			background-color: rgba(0, 0, 0, 0.075);
+		}
+
+		.table-hover .table-active:hover {
+			background-color: rgba(0, 0, 0, 0.075);
+		}
+
+		.table-hover .table-active:hover>td,
+		.table-hover .table-active:hover>th {
+			background-color: rgba(0, 0, 0, 0.075);
+		}
+
+		.table-success,
+		.table-success>th,
+		.table-success>td {
+			background-color: #dff0d8;
+		}
+
+		.table-hover .table-success:hover {
+			background-color: #d0e9c6;
+		}
+
+		.table-hover .table-success:hover>td,
+		.table-hover .table-success:hover>th {
+			background-color: #d0e9c6;
+		}
+
+		.table-info,
+		.table-info>th,
+		.table-info>td {
+			background-color: #d9edf7;
+		}
+
+		.table-hover .table-info:hover {
+			background-color: #c4e3f3;
+		}
+
+		.table-hover .table-info:hover>td,
+		.table-hover .table-info:hover>th {
+			background-color: #c4e3f3;
+		}
+
+		.table-warning,
+		.table-warning>th,
+		.table-warning>td {
+			background-color: #fcf8e3;
+		}
+
+		.table-hover .table-warning:hover {
+			background-color: #faf2cc;
+		}
+
+		.table-hover .table-warning:hover>td,
+		.table-hover .table-warning:hover>th {
+			background-color: #faf2cc;
+		}
+
+		.table-danger,
+		.table-danger>th,
+		.table-danger>td {
+			background-color: #f2dede;
+		}
+
+		.table-hover .table-danger:hover {
+			background-color: #ebcccc;
+		}
+
+		.table-hover .table-danger:hover>td,
+		.table-hover .table-danger:hover>th {
+			background-color: #ebcccc;
+		}
+
+		.thead-inverse th {
+			color: #fff;
+			background-color: #292b2c;
+		}
+
+		.thead-default th {
+			color: #464a4c;
+			background-color: #eceeef;
+		}
+
+		.table-inverse {
+			color: #fff;
+			background-color: #292b2c;
+		}
+
+		.table-inverse th,
+		.table-inverse td,
+		.table-inverse thead th {
+			border-color: #fff;
+		}
+
+		.table-inverse.table-bordered {
+			border: 0;
+		}
+
+		.table-responsive {
+			display: block;
+			width: 100%;
+			overflow-x: auto;
+			-ms-overflow-style: -ms-autohiding-scrollbar;
+		}
+
+		.table-responsive.table-bordered {
+			border: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="report-header">
+		<table class="table table-sm">
+			<tr>
+				<th align="left" valign="middle" width="60">
+					<img width="50" height="50" src="http://localhost/koperasi/assets/images/logo.png">
+				</th>
+				<th align="left" valign="middle">
+					<h3 class="company-name">KOPERASI </h3>
+					<small class="sub-title">The Amazing and Awesome</small>
+				</th>
+				<th align="right" valign="middle">
+					<div class="company-info">
+						<div>Phone: <span class="sub-title">+6281389548451</span></div>
+						<div>Email: <span class="sub-title">info@KOPERASI </span></div>
+					</div>
+					
+				</th>
+			</tr>
+		</table>
+	</div>
+
+	<div id="report-title">Pengguna</div>
+	<div id="report-body">
+                                    <table class="table  table-striped table-sm text-left">
+                                        <thead class="table-header bg-light">
+                                            <tr>
+                                                
+                                                <th class="td-sno">#</th>
+                                                <th class="td-id"> Id</th>
+                                                <th class="td-username"> Username</th>                                               
+                                                <th class="td-nama"> Nama</th>
+                                                <th class="td-email"> Email</th>
+                                                <th class="td-no_telp"> No.Telpon</th>
+                                                <th class="td-alamat_agt"> Alamat</th>
+                                                <th class="td-ttl_agt"> TTL</th>
+                                                <th class="td-jenis_kelamin_agt"> Jenis Kelamin</th>
+                                                <th class="td-photo"> Foto</th>
+                                                <th class="td-file_surat"> File</th>
+                                                <th class="td-role"> Role</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                                                                <tbody class="page-data" id="page-data-list-page-106fn4vdwo5z">
+                                            <!--record-->
+                                                                                        <tr>
+                                                
+                                                    <th class="td-sno">1</th>
+                                                    <td class="td-id"><a>7</a></td>
+                                                    <td class="td-username">
+                                                        <span data-value="roby" data-pk="7" data-url="http://localhost/koperasi/pengguna/editfield/7" data-name="username" data-title="Enter Username" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            roby 
+                                                        </span>
+                                                    </td>                                                    
+                                                    <td class="td-nama">
+                                                        <span data-value="Roby Saputra" data-pk="7" data-url="http://localhost/koperasi/pengguna/editfield/7" data-name="nama" data-title="Enter Nama" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Roby Saputra 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-email">
+                                                        <span data-value="roby2122@gmail.com" data-pk="7" data-url="http://localhost/koperasi/pengguna/editfield/7" data-name="email" data-title="Enter Email" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            roby2122@gmail.com 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-no_telp">
+                                                        <span data-value="081255638291" data-pk="7" data-url="http://localhost/koperasi/pengguna/editfield/7" data-name="no_telp" data-title="Enter No.Telpon" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            081255638291 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-alamat_agt">
+                                                        <span data-value="Desa Jiyu" data-pk="7" data-url="http://localhost/koperasi/pengguna/editfield/7" data-name="alamat_agt" data-title="Enter Alamat" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Desa Jiyu 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-ttl_agt">
+                                                        <span data-value="Surabaya, 25-08-1999" data-pk="7" data-url="http://localhost/koperasi/pengguna/editfield/7" data-name="ttl_agt" data-title="Enter TTL" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Surabaya, 25-08-1999 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-jenis_kelamin_agt">
+                                                        <span data-value="Laki-laki" data-pk="7" data-url="http://localhost/koperasi/pengguna/editfield/7" data-name="jenis_kelamin_agt" data-title="Enter Jenis Kelamin" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Laki-laki 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-photo">
+                                                        <span data-value="&lt;a" data-gallery="" href="http://localhost/koperasi/helpers/timthumb.php?src=http://localhost/koperasi/uploads/files/1720324374.png&amp;w=760&amp;h=520">
+					<img src="http://localhost/koperasi/helpers/timthumb.php?src=http://localhost/koperasi/uploads/files/1720324374.png&amp;h=50&amp;w=50">
+				
+		                                                     
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-file_surat">					<a class="btn btn-info btn-sm" target="_blank">
+						<i class="fa fa-paperclip"></i>
+						ug0h3e8cxw_b5ol.pdf					</a>
+			</td>
+                                                    <td class="td-role_name">
+                                                        <span data-value="" data-pk="7" data-url="http://localhost/koperasi/roles/editfield/" data-name="user_role_name" data-title="Enter role" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            2 
+                                                        </span>
+                                                    </td>
+                                                    
+                                                </tr>
+                                                                                            <tr>
+                                                
+                                                    <th class="td-sno">2</th>
+                                                    <td class="td-id"><a>6</a></td>
+                                                    <td class="td-username">
+                                                        <span data-value="nasar" data-pk="6" data-url="http://localhost/koperasi/pengguna/editfield/6" data-name="username" data-title="Enter Username" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            nasar 
+                                                        </span>
+                                                    </td>                                                    
+                                                    <td class="td-nama">
+                                                        <span data-value="Nasar Mulyoadi" data-pk="6" data-url="http://localhost/koperasi/pengguna/editfield/6" data-name="nama" data-title="Enter Nama" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Nasar Mulyoadi 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-email">
+                                                        <span data-value="nasarmulyo75@gmail.com" data-pk="6" data-url="http://localhost/koperasi/pengguna/editfield/6" data-name="email" data-title="Enter Email" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            nasarmulyo75@gmail.com 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-no_telp">
+                                                        <span data-value="0839121037582" data-pk="6" data-url="http://localhost/koperasi/pengguna/editfield/6" data-name="no_telp" data-title="Enter No.Telpon" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            0839121037582 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-alamat_agt">
+                                                        <span data-value="Desa Claket" data-pk="6" data-url="http://localhost/koperasi/pengguna/editfield/6" data-name="alamat_agt" data-title="Enter Alamat" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Desa Claket 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-ttl_agt">
+                                                        <span data-value="Mojokerto, 06-12-1998" data-pk="6" data-url="http://localhost/koperasi/pengguna/editfield/6" data-name="ttl_agt" data-title="Enter TTL" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Mojokerto, 06-12-1998 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-jenis_kelamin_agt">
+                                                        <span data-value="Laki-laki" data-pk="6" data-url="http://localhost/koperasi/pengguna/editfield/6" data-name="jenis_kelamin_agt" data-title="Enter Jenis Kelamin" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Laki-laki 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-photo">
+                                                        <span data-value="&lt;a" data-gallery="" href="http://localhost/koperasi/helpers/timthumb.php?src=http://localhost/koperasi/uploads/files/1720324250.png&amp;w=760&amp;h=520">
+					<img src="http://localhost/koperasi/helpers/timthumb.php?src=http://localhost/koperasi/uploads/files/1720324250.png&amp;h=50&amp;w=50">
+				
+		                                                     
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-file_surat">					<a class="btn btn-info btn-sm" target="_blank">
+						<i class="fa fa-paperclip"></i>
+						4rsuv3ho7md0cq2.docx					</a>
+			</td>
+                                                    <td class="td-role_name">
+                                                        <span data-value="" data-pk="6" data-url="http://localhost/koperasi/roles/editfield/" data-name="user_role_name" data-title="Enter role" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            2 
+                                                        </span>
+                                                    </td>
+                                                    
+                                                </tr>
+                                                                                            <tr>
+                                                
+                                                    <th class="td-sno">3</th>
+                                                    <td class="td-id"><a>4</a></td>
+                                                    <td class="td-username">
+                                                        <span data-value="iqbal" data-pk="4" data-url="http://localhost/koperasi/pengguna/editfield/4" data-name="username" data-title="Enter Username" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            iqbal 
+                                                        </span>
+                                                    </td>                                                    
+                                                    <td class="td-nama">
+                                                        <span data-value="Iqbal Setiyadi" data-pk="4" data-url="http://localhost/koperasi/pengguna/editfield/4" data-name="nama" data-title="Enter Nama" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Iqbal Setiyadi 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-email">
+                                                        <span data-value="iqbalsetiyadi08@gmail.com" data-pk="4" data-url="http://localhost/koperasi/pengguna/editfield/4" data-name="email" data-title="Enter Email" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            iqbalsetiyadi08@gmail.com 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-no_telp">
+                                                        <span data-value="081389548451" data-pk="4" data-url="http://localhost/koperasi/pengguna/editfield/4" data-name="no_telp" data-title="Enter No.Telpon" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            081389548451 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-alamat_agt">
+                                                        <span data-value="Desa Kutorejo" data-pk="4" data-url="http://localhost/koperasi/pengguna/editfield/4" data-name="alamat_agt" data-title="Enter Alamat" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Desa Kutorejo 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-ttl_agt">
+                                                        <span data-value="Mojokerto, 08-10-2002" data-pk="4" data-url="http://localhost/koperasi/pengguna/editfield/4" data-name="ttl_agt" data-title="Enter TTL" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Mojokerto, 08-10-2002 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-jenis_kelamin_agt">
+                                                        <span data-value="Laki-laki" data-pk="4" data-url="http://localhost/koperasi/pengguna/editfield/4" data-name="jenis_kelamin_agt" data-title="Enter Jenis Kelamin" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Laki-laki 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-photo">
+                                                        <span data-value="&lt;a" data-gallery="" href="http://localhost/koperasi/helpers/timthumb.php?src=http://localhost/koperasi/uploads/files/1719810963.jpg&amp;w=760&amp;h=520">
+					<img src="http://localhost/koperasi/helpers/timthumb.php?src=http://localhost/koperasi/uploads/files/1719810963.jpg&amp;h=50&amp;w=50">
+				
+		                                                     
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-file_surat">					<a class="btn btn-info btn-sm" target="_blank">
+						<i class="fa fa-paperclip"></i>
+						gzd84vkx27rlscj.pdf					</a>
+			</td>
+                                                    <td class="td-role_name">
+                                                        <span data-value="" data-pk="4" data-url="http://localhost/koperasi/roles/editfield/" data-name="user_role_name" data-title="Enter role" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            1 
+                                                        </span>
+                                                    </td>
+                                                    
+                                                </tr>
+                                                                                            <tr>
+                                                
+                                                    <th class="td-sno">4</th>
+                                                    <td class="td-id"><a>2</a></td>
+                                                    <td class="td-username">
+                                                        <span data-value="user" data-pk="2" data-url="http://localhost/koperasi/pengguna/editfield/2" data-name="username" data-title="Enter Username" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            user 
+                                                        </span>
+                                                    </td>                                                    
+                                                    <td class="td-nama">
+                                                        <span data-value="Userr" data-pk="2" data-url="http://localhost/koperasi/pengguna/editfield/2" data-name="nama" data-title="Enter Nama" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Userr 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-email">
+                                                        <span data-value="user122@gmail.com" data-pk="2" data-url="http://localhost/koperasi/pengguna/editfield/2" data-name="email" data-title="Enter Email" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            user122@gmail.com 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-no_telp">
+                                                        <span data-value="081290561876" data-pk="2" data-url="http://localhost/koperasi/pengguna/editfield/2" data-name="no_telp" data-title="Enter No.Telpon" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            081290561876 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-alamat_agt">
+                                                        <span data-value="Desa Kleco" data-pk="2" data-url="http://localhost/koperasi/pengguna/editfield/2" data-name="alamat_agt" data-title="Enter Alamat" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Desa Kleco 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-ttl_agt">
+                                                        <span data-value="Mojokerto, 19-11-1998" data-pk="2" data-url="http://localhost/koperasi/pengguna/editfield/2" data-name="ttl_agt" data-title="Enter TTL" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Mojokerto, 19-11-1998 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-jenis_kelamin_agt">
+                                                        <span data-value="Laki-laki" data-pk="2" data-url="http://localhost/koperasi/pengguna/editfield/2" data-name="jenis_kelamin_agt" data-title="Enter Jenis Kelamin" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Laki-laki 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-photo">
+                                                        <span data-value="&lt;a" data-gallery="" href="http://localhost/koperasi/helpers/timthumb.php?src=http://localhost/appsuratmasukkeluar/uploads/files/1622020736.png&amp;w=760&amp;h=520">
+					<img src="http://localhost/koperasi/helpers/timthumb.php?src=http://localhost/appsuratmasukkeluar/uploads/files/1622020736.png&amp;h=50&amp;w=50">
+				
+		                                                     
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-file_surat">					<a class="btn btn-info btn-sm" target="_blank">
+						<i class="fa fa-paperclip"></i>
+						n5i1mcyrx8pogtv.docx					</a>
+			</td>
+                                                    <td class="td-role_name">
+                                                        <span data-value="" data-pk="2" data-url="http://localhost/koperasi/roles/editfield/" data-name="user_role_name" data-title="Enter role" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            2 
+                                                        </span>
+                                                    </td>
+                                                    
+                                                </tr>
+                                                                                            <tr>
+                                                
+                                                    <th class="td-sno">5</th>
+                                                    <td class="td-id"><a>1</a></td>
+                                                    <td class="td-username">
+                                                        <span data-value="admin" data-pk="1" data-url="http://localhost/koperasi/pengguna/editfield/1" data-name="username" data-title="Enter Username" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            admin 
+                                                        </span>
+                                                    </td>                                                    
+                                                    <td class="td-nama">
+                                                        <span data-value="Administrator" data-pk="1" data-url="http://localhost/koperasi/pengguna/editfield/1" data-name="nama" data-title="Enter Nama" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Administrator 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-email">
+                                                        <span data-value="admin@gmail.com" data-pk="1" data-url="http://localhost/koperasi/pengguna/editfield/1" data-name="email" data-title="Enter Email" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            admin@gmail.com 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-no_telp">
+                                                        <span data-value="081329879536" data-pk="1" data-url="http://localhost/koperasi/pengguna/editfield/1" data-name="no_telp" data-title="Enter No.Telpon" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            081329879536 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-alamat_agt">
+                                                        <span data-value="Desa Padusan" data-pk="1" data-url="http://localhost/koperasi/pengguna/editfield/1" data-name="alamat_agt" data-title="Enter Alamat" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Desa Padusan 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-ttl_agt">
+                                                        <span data-value="Mojokerto, 08-09-1995" data-pk="1" data-url="http://localhost/koperasi/pengguna/editfield/1" data-name="ttl_agt" data-title="Enter TTL" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Mojokerto, 08-09-1995 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-jenis_kelamin_agt">
+                                                        <span data-value="Laki-laki" data-pk="1" data-url="http://localhost/koperasi/pengguna/editfield/1" data-name="jenis_kelamin_agt" data-title="Enter Jenis Kelamin" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            Laki-laki 
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-photo">
+                                                        <span data-value="&lt;a" data-gallery="" href="http://localhost/koperasi/helpers/timthumb.php?src=http://localhost/appsuratmasukkeluar/uploads/files/1621929810.png&amp;w=760&amp;h=520">
+					<img src="http://localhost/koperasi/helpers/timthumb.php?src=http://localhost/appsuratmasukkeluar/uploads/files/1621929810.png&amp;h=50&amp;w=50">
+				
+		                                                     
+                                                        </span>
+                                                    </td>
+                                                    <td class="td-file_surat">					<a class="btn btn-info btn-sm" target="_blank">
+						<i class="fa fa-paperclip"></i>
+						qydaithf1se4c26.pdf					</a>
+			</td>
+                                                    <td class="td-role_name">
+                                                        <span data-value="" data-pk="1" data-url="http://localhost/koperasi/roles/editfield/" data-name="user_role_name" data-title="Enter role" data-placement="left" data-toggle="click" data-type="text" data-mode="popover" data-showbuttons="left" class="is-editable">
+                                                            1 
+                                                        </span>
+                                                    </td>
+                                                    
+                                                </tr>
+                                                                                                <!--endrecord-->
+                                            </tbody>
+                                            <tbody class="search-data" id="search-data-list-page-106fn4vdwo5z"></tbody>
+                                                                                    </table>
+                                                                            </div>
+	<div id="report-footer">
+		<table class="table table-sm">
+			<tr>
+				<td align="left" valign="middle" width="30">
+					<img width="30" height="30" src="http://localhost/koperasi/assets/images/logo.png">
+				</td>
+				<td align="left" valign="middle">
+					Footer content goes here.
+				</td>
+				<td align="right" valign="middle">
+					7th July, 2024 06:19				</td>
+			</tr>
+		</table>
+	</div>
+
+
+	</body>
+
+</html>
