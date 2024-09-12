@@ -1,2 +1,2 @@
 # KOPERASI
-Aplikasi penyimpanan data anggota dan data pendapatan prdukisi susu
+Aplikasi penyimpanan data anggota dan data pendapatan produksi susu
